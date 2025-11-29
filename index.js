@@ -9,10 +9,11 @@ const sendSMS = require("./utils/sendSMS");
 const app = express();
 app.use(
   cors({
-    origin: ["https://bpcllpoffer.netlify.app/"],
+    origin: ["https://bpcllpoffer.netlify.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
+
 app.use(express.json());
 
 const connectDB = async () => {
