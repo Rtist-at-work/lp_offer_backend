@@ -9,7 +9,7 @@ const sendSMS = require("./utils/sendSMS");
 const app = express();
 app.use(
   cors({
-    origin: ["https://bpcllpoffer.netlify.app","http://127.0.0.1:5500"],
+    origin: ["https://bpcllpoffer.netlify.app"],
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
