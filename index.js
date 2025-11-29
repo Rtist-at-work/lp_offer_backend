@@ -7,14 +7,27 @@ const Form = require("./model/userDetails");
 const sendSMS = require("./utils/sendSMS");
 
 const app = express();
-app.use(cors({
-  origin: "https://bpcllpoffer.netlify.app",
-  methods: ["GET", "POST", "PUT", "DELETE"],
-}));
+app.use(
+  cors({
+    origin: ["https://bpcllpoffer.netlify.app/"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+  })
+);
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI);
-console.log(process.env.MONGO_URI)
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("MongoDB Connected");
+  } catch (error) {
+    console.error("MongoDB connection error:", error);
+    process.exit(1);
+  }
+};
+
+connectDB();
+
+console.log(process.env.MONGO_URI);
 
 app.post("/api/save-details", async (req, res) => {
   const { name, vehicle, mobile, bill } = req.body;
@@ -44,11 +57,9 @@ app.post("/api/save-details", async (req, res) => {
 
     // Send success SMS
     try {
-      await sendSMS(
-        mobile,      
-      );
+      await sendSMS(mobile);
     } catch (smsErr) {
-        console.log(smsErr)
+      console.log(smsErr);
       return res.status(500).json({
         message: "Data saved but SMS sending failed",
         status: "sms_failed",
