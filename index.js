@@ -7,10 +7,14 @@ const Form = require("./model/userDetails");
 const sendSMS = require("./utils/sendSMS");
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "https://bpcllpoffer.netlify.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+}));
 app.use(express.json());
 
 mongoose.connect(process.env.MONGO_URI);
+console.log(process.env.MONGO_URI)
 
 app.post("/api/save-details", async (req, res) => {
   const { name, vehicle, mobile, bill } = req.body;
